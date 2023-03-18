@@ -1,9 +1,9 @@
 {
-	"id": "obsidian-avatar",
+	"id": "avatar",
 	"name": "Avatar",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"minAppVersion": "0.15.0",
-	"description": "Display an avatar image in front of your notes.",
+	"description": "Display an avatar image in your notes.",
 	"author": "froehlichA",
 	"authorUrl": "https://github.com/froehlichA/obsidian-avatar",
 	"fundingUrl": "https://github.com/froehlichA/obsidian-avatar",
