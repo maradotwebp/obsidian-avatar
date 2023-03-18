@@ -102,7 +102,7 @@
 			bind:textContent={state.description}
 		></span>
 		<span
-			class="md-preview"
+			class="avatar-plugin--md-preview"
 			hidden={editMode}
 			bind:this={descriptionPreviewEl}
 			data-placeholder="Write your story..."

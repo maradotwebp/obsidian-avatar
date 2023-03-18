@@ -1,23 +1,7 @@
-.show-in-source-view {
-	display: none;
-}
-
-.markdown-source-view > .show-in-source-view {
-	display: initial;
-}
-
-.show-in-reading-view {
-	display: none;
-}
-
-.markdown-reading-view > .show-in-reading-view {
-	display: initial;
-}
-
-.float-right {
+.avatar-plugin--float-right {
 	float: right;
 }
 
-.md-preview > * {
+.avatar-plugin--md-preview > * {
 	margin-top: 0;
 }
