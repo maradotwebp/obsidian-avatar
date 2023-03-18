@@ -13,3 +13,7 @@
 .markdown-reading-view > .show-in-reading-view {
 	display: initial;
 }
+
+.float-right {
+	float: right;
+}

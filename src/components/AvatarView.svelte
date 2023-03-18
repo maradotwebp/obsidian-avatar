@@ -1,9 +1,10 @@
 <script lang="ts">
-	import {App, MarkdownPostProcessorContext, MarkdownView} from "obsidian";
+	import {App, MarkdownPostProcessorContext, MarkdownView, TFile} from "obsidian";
 	import {AvatarPlugin} from "../plugin";
 	import Fab from "./Fab.svelte";
 	import ObsidianIcon from "./ObsidianIcon.svelte";
 	import type {SetState, State} from "../core/stateProviders";
+	import {SelectImageModal} from "./SelectImageModal";
 
 	interface AvatarViewState {
 		image: string;
@@ -11,7 +12,6 @@
 	}
 
 	export let app: App;
-	export let plugin: AvatarPlugin;
 	export let ctx: MarkdownPostProcessorContext;
 	export let state: State<AvatarViewState>;
 	export let setState: SetState<AvatarViewState>;
@@ -34,18 +34,33 @@
 		});
 	}
 
-	function selectImage() {
+	function updateImage() {
+		if(inSourceMode) {
+			new SelectImageModal(app, (path) => {
+				setState((fm) => {
+					fm.image = path;
+				});
+			}).open();
+		}
+	}
+
+	function normalizeImgPath(src: string): string {
+		const file = app.vault.getAbstractFileByPath(src);
+		if(file && file instanceof TFile) {
+			return app.vault.getResourcePath(file);
+		}
+		return src;
 	}
 </script>
 
 <div class="flex">
 	<div
 		class="avatar relative"
-		on:click={selectImage}
+		on:click={updateImage}
 		on:mouseenter={() => hoverOnImage = true}
 		on:mouseleave={() => hoverOnImage = false}
 	>
-		<img class="avatar" alt="Avatar" src={state?.image ?? fallbackImage} />
+		<img class="avatar" alt="Avatar" src={normalizeImgPath(state?.image) ?? fallbackImage} />
 		{#if inSourceMode && hoverOnImage}
 			<Fab>
 				<ObsidianIcon id="edit"></ObsidianIcon>
