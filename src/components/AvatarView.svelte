@@ -19,12 +19,12 @@
 	let initialDescription = state?.description;
 	let hoverOnImage: boolean = false;
 
-	$: inPreviewMode = isPreviewMode(app);
+	$: inSourceMode = app ? isSourceMode(app) : false;
 	$: fallbackImage = `https://ui-avatars.com/api/?name=${ctx?.sourcePath.split("/").at(-1) ?? "::"}&size=240`;
 
-	function isPreviewMode(app: App) {
+	function isSourceMode(app: App) {
 		const view = app.workspace.getMostRecentLeaf()?.view as MarkdownView;
-		return view?.getMode() === "preview";
+		return view?.getMode() === "source";
 	}
 
 	function updateDescription() {
@@ -46,17 +46,17 @@
 		on:mouseleave={() => hoverOnImage = false}
 	>
 		<img class="avatar" alt="Avatar" src={state?.image ?? fallbackImage} />
-		{#if hoverOnImage}
+		{#if inSourceMode && hoverOnImage}
 			<Fab>
 				<ObsidianIcon id="edit"></ObsidianIcon>
 			</Fab>
 		{/if}
 	</div>
 	<div class="description">
-		{#if inPreviewMode}
-			<i data-placeholder="Write your story...">{state.description}</i>
-		{:else}
+		{#if inSourceMode}
 			<i contenteditable="true" data-placeholder="Write your story..." bind:textContent={state.description}></i>
+		{:else}
+			<i data-placeholder="Write your story...">{state.description}</i>
 		{/if}
 		{#if (initialDescription !== "" || state?.description !== "") && state?.description !== initialDescription}
 			<Fab on:click={updateDescription}>
