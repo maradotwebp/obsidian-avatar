@@ -102,7 +102,7 @@
 			bind:value={state.description}
 		></textarea>
 		<span
-			class="avatar-plugin--md-preview"
+			class="avatar-plugin--md-preview with-placeholder"
 			hidden={editMode}
 			bind:this={descriptionPreviewEl}
 			data-placeholder="Write your story..."
@@ -153,7 +153,7 @@
 		height: 100%;
 	}
 
-	[contenteditable=true]:empty:not(:focus):before{
+	.with-placeholder:empty:before {
 		content: attr(data-placeholder);
 		color: var(--text-faint);
 		font-style: italic;
