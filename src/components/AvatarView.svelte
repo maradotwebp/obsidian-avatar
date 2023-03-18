@@ -1,6 +1,5 @@
 <script lang="ts">
 	import {App, MarkdownPostProcessorContext, MarkdownView, TFile} from "obsidian";
-	import {AvatarPlugin} from "../plugin";
 	import Fab from "./Fab.svelte";
 	import ObsidianIcon from "./ObsidianIcon.svelte";
 	import type {SetState, State} from "../core/stateProviders";
