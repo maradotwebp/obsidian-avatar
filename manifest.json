@@ -5,7 +5,6 @@
 	"minAppVersion": "0.15.0",
 	"description": "Display an avatar image in your notes.",
 	"author": "froehlichA",
-	"authorUrl": "https://github.com/froehlichA/obsidian-avatar",
-	"fundingUrl": "https://github.com/froehlichA/obsidian-avatar",
+	"authorUrl": "https://github.com/froehlichA",
 	"isDesktopOnly": false
 }
