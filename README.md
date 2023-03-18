@@ -13,7 +13,7 @@ To use, insert the following snippet into your markdown.
 
 ## Editing the picture / description
 
-In source mode, you can edit the codeblock directly:
+**In source mode**, you can edit the codeblock directly:
 
 ````
 ```avatar
@@ -22,10 +22,7 @@ description: This will be displayed as the description!
 ```
 ````
 
-In live preview mode,
-
-- click on the image to change it (then either select one from your vault, or paste in a URL to a picture online)
-- click on the description to edit it (Don't forget to click the button to save your changes!)
+**In live preview mode**, click on the image to change it *(then either select one from your vault, or paste in a URL to a picture online)*, or edit the description by clicking on it *(Don't forget to click the button to save your changes!)*
 
 ![Edit Mode](./docs/avatar_edit.PNG)
 
