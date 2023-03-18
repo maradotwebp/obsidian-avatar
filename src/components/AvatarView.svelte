@@ -74,6 +74,7 @@
 	}
 
 	$: if(descriptionPreviewEl && plugin && state && state?.description) {
+		descriptionPreviewEl.innerHTML = '';
 		MarkdownRenderer.renderMarkdown(state.description, descriptionPreviewEl, "", plugin);
 	}
 </script>
@@ -101,6 +102,7 @@
 			bind:textContent={state.description}
 		></span>
 		<span
+			class="md-preview"
 			hidden={editMode}
 			bind:this={descriptionPreviewEl}
 			data-placeholder="Write your story..."
