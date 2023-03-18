@@ -120,7 +120,7 @@
 		display: flex;
 		gap: 1.4em;
 		flex-wrap: wrap;
-		justify-items: center;
+		justify-content: center;
 	}
 
 	@media (min-width: 992px) {
