@@ -75,7 +75,7 @@
 
 	$: if(descriptionPreviewEl && plugin && state && state?.description) {
 		descriptionPreviewEl.innerHTML = '';
-		MarkdownRenderer.renderMarkdown(state.description, descriptionPreviewEl, "", plugin);
+		MarkdownRenderer.renderMarkdown(state.description, descriptionPreviewEl, ctx?.sourcePath ?? "", plugin);
 	}
 </script>
 
