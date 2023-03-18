@@ -24,13 +24,12 @@ export class SelectImageModal extends SuggestModal<Image> {
 		const search = prepareFuzzySearch(query);
 		const files = this.app.vault.getFiles()
 			.filter(f => ["jpg", "jpeg", "png", "gif", "svg", "webp"].includes(f.extension))
-			.map(f => ({ title: f.basename, desc: f.extension, path: f.path }));
+			.map(f => ({ title: f.name, path: f.path }));
 		const searchResults = files
 			.map<Image & { score: number }>(f => {
 				const result = search(f.title);
 				return {
 					title: result?.matches ? fuzzyStrToFragment(f.title, result?.matches) : strToFragment(f.title),
-					desc: f.desc,
 					path: f.path,
 					score: result?.score ?? 1
 				}
@@ -51,7 +50,7 @@ export class SelectImageModal extends SuggestModal<Image> {
 
 	override renderSuggestion(item: Image, el: HTMLElement) {
 		el.createEl("span", { text: item.title });
-		el.createEl("small", { text: item.desc, cls: "float-right" });
+		el.createEl("small", { text: item.desc, cls: "avatar-plugin--float-right" });
 	}
 
 	override onChooseSuggestion(item: Image, evt: MouseEvent | KeyboardEvent): any {
