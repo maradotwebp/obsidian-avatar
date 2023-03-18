@@ -1,8 +1,15 @@
-/*
+.show-in-source-view {
+	display: none;
+}
 
-This CSS file will be included with your plugin, and
-available in the app when your plugin is enabled.
+.markdown-source-view > .show-in-source-view {
+	display: initial;
+}
 
-If your plugin does not need CSS, delete this file.
+.show-in-reading-view {
+	display: none;
+}
 
-*/
+.markdown-reading-view > .show-in-reading-view {
+	display: initial;
+}
