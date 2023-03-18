@@ -17,3 +17,7 @@
 .float-right {
 	float: right;
 }
+
+.md-preview > * {
+	margin-top: 0;
+}
