@@ -25,6 +25,9 @@
 
 	let initialDescription = state?.description;
 	let hoverOnImage: boolean = false;
+	let editMode: boolean = false;
+	let descriptionEditEl: HTMLElement;
+	let descriptionPreviewEl: HTMLElement;
 
 	$: inSourceMode = app ? isSourceMode(app) : false;
 	$: fallbackImage = `https://ui-avatars.com/api/?name=${ctx?.sourcePath.split("/").at(-1) ?? "::"}&size=240`;
@@ -34,11 +37,22 @@
 		return view?.getMode() === "source";
 	}
 
-	function updateDescription() {
+	function enterEditMode() {
+		if(inSourceMode && !editMode) {
+			editMode = true;
+			queueMicrotask(() => {
+				descriptionEditEl.focus();
+			});
+		}
+	}
+
+	function updateDescription(evt: MouseEvent) {
+		editMode = false;
 		initialDescription = state.description;
 		setState((fm) => {
 			fm.description = state.description;
 		});
+		evt.stopPropagation();
 	}
 
 	function updateImage() {
@@ -59,9 +73,8 @@
 		return src;
 	}
 
-	let mdEL: HTMLElement;
-	$: if(mdEL && plugin && state?.description) {
-		MarkdownRenderer.renderMarkdown(state.description, mdEL, "", plugin);
+	$: if(descriptionPreviewEl && plugin && state && state?.description) {
+		MarkdownRenderer.renderMarkdown(state.description, descriptionPreviewEl, "", plugin);
 	}
 </script>
 
@@ -79,13 +92,20 @@
 			</Fab>
 		{/if}
 	</div>
-	<div class="description">
-		{#if inSourceMode}
-			<span contenteditable="true" data-placeholder="Write your story..." bind:textContent={state.description}></span>
-		{:else}
-			<span data-placeholder="Write your story..." bind:this={mdEL}></span>
-		{/if}
-		{#if (initialDescription !== "" || state?.description !== "") && state?.description !== initialDescription}
+	<div class="description" on:click={enterEditMode}>
+		<span
+			bind:this={descriptionEditEl}
+			hidden={!editMode}
+			contenteditable="true"
+			data-placeholder="Write your story..."
+			bind:textContent={state.description}
+		></span>
+		<span
+			hidden={editMode}
+			bind:this={descriptionPreviewEl}
+			data-placeholder="Write your story..."
+		></span>
+		{#if editMode}
 			<Fab on:click={updateDescription}>
 				<ObsidianIcon id="save"></ObsidianIcon>
 			</Fab>
