@@ -94,13 +94,13 @@
 		{/if}
 	</div>
 	<div class="description" on:click={enterEditMode}>
-		<span
+		<textarea
+			class="textarea"
 			bind:this={descriptionEditEl}
 			hidden={!editMode}
-			contenteditable="true"
-			data-placeholder="Write your story..."
-			bind:textContent={state.description}
-		></span>
+			placeholder="Write your story..."
+			bind:value={state.description}
+		></textarea>
 		<span
 			class="avatar-plugin--md-preview"
 			hidden={editMode}
@@ -146,6 +146,11 @@
 		word-break: break-word;
 		padding: 6px;
 		border-radius: 6px;
+	}
+
+	.textarea {
+		width: 100%;
+		height: 100%;
 	}
 
 	[contenteditable=true]:empty:not(:focus):before{
