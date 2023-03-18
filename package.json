@@ -1,6 +1,6 @@
 {
 	"name": "obsidian-avatar",
-	"version": "1.0.2",
+	"version": "1.0.3",
 	"description": "An obsidian plugin for displaying an avatar image in front of your notes. ",
 	"main": "main.js",
 	"scripts": {
