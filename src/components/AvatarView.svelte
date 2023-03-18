@@ -1,9 +1,16 @@
 <script lang="ts">
-	import {App, MarkdownPostProcessorContext, MarkdownView, TFile} from "obsidian";
+	import {
+		App,
+		MarkdownPostProcessorContext,
+		MarkdownRenderer,
+		MarkdownView,
+		TFile
+	} from "obsidian";
 	import Fab from "./Fab.svelte";
 	import ObsidianIcon from "./ObsidianIcon.svelte";
 	import type {SetState, State} from "../core/stateProviders";
 	import {SelectImageModal} from "./SelectImageModal";
+	import {AvatarPlugin} from "../plugin";
 
 	interface AvatarViewState {
 		image: string;
@@ -11,6 +18,7 @@
 	}
 
 	export let app: App;
+	export let plugin: AvatarPlugin;
 	export let ctx: MarkdownPostProcessorContext;
 	export let state: State<AvatarViewState>;
 	export let setState: SetState<AvatarViewState>;
@@ -50,6 +58,11 @@
 		}
 		return src;
 	}
+
+	let mdEL: HTMLElement;
+	$: if(mdEL && plugin && state?.description) {
+		MarkdownRenderer.renderMarkdown(state.description, mdEL, "", plugin);
+	}
 </script>
 
 <div class="flex">
@@ -68,9 +81,9 @@
 	</div>
 	<div class="description">
 		{#if inSourceMode}
-			<i contenteditable="true" data-placeholder="Write your story..." bind:textContent={state.description}></i>
+			<span contenteditable="true" data-placeholder="Write your story..." bind:textContent={state.description}></span>
 		{:else}
-			<i data-placeholder="Write your story...">{state.description}</i>
+			<span data-placeholder="Write your story..." bind:this={mdEL}></span>
 		{/if}
 		{#if (initialDescription !== "" || state?.description !== "") && state?.description !== initialDescription}
 			<Fab on:click={updateDescription}>
