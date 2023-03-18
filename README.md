@@ -27,3 +27,19 @@ description: This will be displayed as the description!
 ![Edit Mode](./docs/avatar_edit.PNG)
 
 The description editor supports all markdown features of Obsidian.
+
+## Installation
+
+### Using Obsidian
+
+1. Open Obsidian
+2. Open `Settings` -> `Community Plugins`
+3. Click on `Turn on Community plugins` if prompted
+4. Click on `Browse`, and search for `Avatar`
+6. Install & enable the plugin
+
+### Manual installation
+
+1. Download the latest release .zip from the `Releases` section of this Github repository
+2. Extract the .zip to your vault's plugin folder: `<vault>/.obsidian/plugins`
+3. Reload Obsidian
