@@ -2,8 +2,7 @@
 	import {
 		App,
 		MarkdownPostProcessorContext,
-		MarkdownRenderer,
-		MarkdownView,
+		MarkdownRenderer, MarkdownView,
 		TFile
 	} from "obsidian";
 	import Fab from "./Fab.svelte";
@@ -11,6 +10,7 @@
 	import type {SetState, State} from "../core/stateProviders";
 	import {SelectImageModal} from "./SelectImageModal";
 	import {AvatarPlugin} from "../plugin";
+	import {onMount} from "svelte";
 
 	interface AvatarViewState {
 		image: string;
@@ -29,12 +29,20 @@
 	let descriptionEditEl: HTMLElement;
 	let descriptionPreviewEl: HTMLElement;
 
-	$: inSourceMode = app ? isSourceMode(app) : false;
+	let inSourceMode = false;
 	$: fallbackImage = `https://ui-avatars.com/api/?name=${ctx?.sourcePath.split("/").at(-1) ?? "::"}&size=240`;
 
-	function isSourceMode(app: App) {
-		const view = app.workspace.getMostRecentLeaf()?.view as MarkdownView;
-		return view?.getMode() === "source";
+	onMount(() => {
+		inSourceMode = isSourceMode();
+		let x = app.workspace.on("layout-change", () => {
+			inSourceMode = isSourceMode();
+		});
+		return () => app.workspace.offref(x);
+	});
+
+	function isSourceMode() {
+		const view = app.workspace.getActiveViewOfType(MarkdownView);
+		return view?.getMode?.() === "source";
 	}
 
 	function enterEditMode() {

@@ -1,6 +1,7 @@
 import type {App, MarkdownPostProcessorContext, Plugin} from "obsidian";
 import type {SvelteComponent} from "svelte";
 import type {StateProvider} from "./stateProviders";
+import {MarkdownRenderChild} from "obsidian";
 
 export interface CodeBlockProcessorProps extends Record<string, any> {
 	app: App;
@@ -20,7 +21,7 @@ export function renderCodeBlockProcessor<S>(
 ) {
 	return (source: string, containerEl: HTMLElement, ctx: MarkdownPostProcessorContext) => {
 		const node = containerEl.createEl("div");
-		new component({
+		const svelteComponent = new component({
 			target: containerEl,
 			props: {
 				...props,
@@ -28,5 +29,13 @@ export function renderCodeBlockProcessor<S>(
 				ctx
 			}
 		});
+
+		class UnloadSvelteComponent extends MarkdownRenderChild {
+			onunload() {
+				svelteComponent.$destroy();
+			}
+		}
+
+		ctx.addChild(new UnloadSvelteComponent(node));
 	}
 }
