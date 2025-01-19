@@ -1,13 +1,20 @@
-import type {MarkdownPostProcessorContext} from "obsidian";
-import type {CodeBlockProcessorProps} from "./renderCodeBlockProcessor";
-import {parseYaml, stringifyYaml} from "obsidian";
+import type { App, MarkdownPostProcessorContext } from "obsidian";
+import type { CodeBlockProcessorProps } from "./renderCodeBlockProcessor";
+import { parseYaml, stringifyYaml } from "obsidian";
 
 export type State<T> = Partial<T>;
 export type SetState<T> = (setter: (state: Partial<T>) => void) => void;
 
-export type StateProvider<T> = (props: CodeBlockProcessorProps, source: string, node: HTMLElement, ctx: MarkdownPostProcessorContext) => {
-	state: State<T>,
-	setState: SetState<T>
+declare let app: App;
+
+export type StateProvider<T> = (
+	props: CodeBlockProcessorProps,
+	source: string,
+	node: HTMLElement,
+	ctx: MarkdownPostProcessorContext
+) => {
+	state: State<T>;
+	setState: SetState<T>;
 };
 
 export function withCodeblockState<T>(): StateProvider<T> {
@@ -18,12 +25,12 @@ export function withCodeblockState<T>(): StateProvider<T> {
 		} catch (_) {}
 
 		const setState: SetState<T> = (stateSetter) => {
-			let newState = { ...state };
+			const newState = { ...state };
 			stateSetter(newState);
 			const newStateStr: string = stringifyYaml(newState);
 
 			const info = ctx.getSectionInfo(node);
-			if(info) {
+			if (info) {
 				app.workspace.activeEditor?.editor?.replaceRange(
 					newStateStr + "```",
 					{ line: info.lineStart + 1, ch: 0 },
@@ -34,7 +41,7 @@ export function withCodeblockState<T>(): StateProvider<T> {
 
 		return {
 			state,
-			setState
-		}
+			setState,
+		};
 	};
 }
