@@ -37,7 +37,9 @@ The following options are available through the YAML codeblock:
 -   `description: string`
     -   The description displayed next to the image.
 -   `side?: "left" | "right"`
-    -   The side on which the avatar will be displayed. Optional, defaults to left.
+    -   The side on which the avatar will be displayed. Optional, defaults to `"left"`.
+-   `size?: "small" | "medium" | "large" | number`
+    -   The size of the avatar. May be either `small` (180x180px), `medium` (240x240px), `large` (320x320px), or any custom width as a number. Optional, defaults to `medium`.
 
 ## Installation
 

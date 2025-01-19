@@ -21,6 +21,16 @@
 		 * @default "left"
 		 */
 		side?: "left" | "right";
+		/**
+		 * The size of the avatar image.
+		 *
+		 * small: 180x180
+		 * medium: 240x240
+		 * large: 300x300
+		 *
+		 * @default "medium"
+		 */
+		size?: "small" | "medium" | "large" | number;
 		description: string;
 	}
 
@@ -38,6 +48,15 @@
 
 	let inSourceMode = false;
 	$: fallbackImage = `https://ui-avatars.com/api/?name=${ctx?.sourcePath.split("/").at(-1) ?? "::"}&size=240`;
+	$: avatarSize = state.size
+		? typeof state.size === "string"
+			? {
+					small: 180,
+					medium: 240,
+					large: 300,
+				}[state.size]
+			: state.size
+		: 240;
 
 	onMount(() => {
 		inSourceMode = isSourceMode();
@@ -102,6 +121,8 @@
 <div class="flex" class:reverse={state?.side === "right"}>
 	<div
 		class="avatar relative"
+		style:width={`${avatarSize}px`}
+		style:height={`${avatarSize}px`}
 		on:click={updateImage}
 		on:mouseenter={() => (hoverOnImage = true)}
 		on:mouseleave={() => (hoverOnImage = false)}
@@ -109,7 +130,7 @@
 		<img
 			class="avatar"
 			alt="Avatar"
-			src={normalizeImgPath(state?.image) ?? fallbackImage}
+			src={state.image ? normalizeImgPath(state?.image) : fallbackImage}
 		/>
 		{#if inSourceMode && hoverOnImage}
 			<Fab>
@@ -163,8 +184,8 @@
 
 	.avatar {
 		flex: 0 0 auto;
-		width: 240px;
-		height: 240px;
+		width: attr(data-size);
+		height: attr(data-size);
 		object-fit: cover;
 		border-radius: 6px;
 	}
