@@ -2,18 +2,25 @@
 	import {
 		App,
 		MarkdownPostProcessorContext,
-		MarkdownRenderer, MarkdownView,
-		TFile
+		MarkdownRenderer,
+		MarkdownView,
+		TFile,
 	} from "obsidian";
 	import Fab from "./Fab.svelte";
 	import ObsidianIcon from "./ObsidianIcon.svelte";
-	import type {SetState, State} from "../core/stateProviders";
-	import {SelectImageModal} from "./SelectImageModal";
-	import {AvatarPlugin} from "../plugin";
-	import {onMount} from "svelte";
+	import type { SetState, State } from "../core/stateProviders";
+	import { SelectImageModal } from "./SelectImageModal";
+	import { AvatarPlugin } from "../plugin";
+	import { onMount } from "svelte";
 
 	interface AvatarViewState {
-		image: string;
+		image?: string;
+		/**
+		 * The side on which the image will be displayed.
+		 *
+		 * @default "left"
+		 */
+		side?: "left" | "right";
 		description: string;
 	}
 
@@ -46,7 +53,7 @@
 	}
 
 	function enterEditMode() {
-		if(inSourceMode && !editMode) {
+		if (inSourceMode && !editMode) {
 			editMode = true;
 			queueMicrotask(() => {
 				descriptionEditEl.focus();
@@ -64,7 +71,7 @@
 	}
 
 	function updateImage() {
-		if(inSourceMode) {
+		if (inSourceMode) {
 			new SelectImageModal(app, (path) => {
 				setState((fm) => {
 					fm.image = path;
@@ -75,33 +82,42 @@
 
 	function normalizeImgPath(src: string): string {
 		const file = app.vault.getAbstractFileByPath(src);
-		if(file && file instanceof TFile) {
+		if (file && file instanceof TFile) {
 			return app.vault.getResourcePath(file);
 		}
 		return src;
 	}
 
-	$: if(descriptionPreviewEl && plugin && state && state?.description) {
-		descriptionPreviewEl.innerHTML = '';
-		MarkdownRenderer.renderMarkdown(state.description, descriptionPreviewEl, ctx?.sourcePath ?? "", plugin);
+	$: if (descriptionPreviewEl && plugin && state && state?.description) {
+		descriptionPreviewEl.innerHTML = "";
+		MarkdownRenderer.renderMarkdown(
+			state.description,
+			descriptionPreviewEl,
+			ctx?.sourcePath ?? "",
+			plugin,
+		);
 	}
 </script>
 
-<div class="flex">
+<div class="flex" class:reverse={state?.side === "right"}>
 	<div
 		class="avatar relative"
 		on:click={updateImage}
-		on:mouseenter={() => hoverOnImage = true}
-		on:mouseleave={() => hoverOnImage = false}
+		on:mouseenter={() => (hoverOnImage = true)}
+		on:mouseleave={() => (hoverOnImage = false)}
 	>
-		<img class="avatar" alt="Avatar" src={normalizeImgPath(state?.image) ?? fallbackImage} />
+		<img
+			class="avatar"
+			alt="Avatar"
+			src={normalizeImgPath(state?.image) ?? fallbackImage}
+		/>
 		{#if inSourceMode && hoverOnImage}
 			<Fab>
 				<ObsidianIcon id="edit"></ObsidianIcon>
 			</Fab>
 		{/if}
 	</div>
-	<div class="description" on:click={enterEditMode}>
+	<div class="description relative" on:click={enterEditMode}>
 		<textarea
 			class="textarea"
 			bind:this={descriptionEditEl}
@@ -131,12 +147,16 @@
 		justify-content: center;
 	}
 
+	.flex.reverse {
+		flex-direction: row-reverse;
+	}
+
 	@media (min-width: 992px) {
 		.flex {
 			flex-wrap: nowrap;
 		}
 	}
-	
+
 	.relative {
 		position: relative;
 	}
