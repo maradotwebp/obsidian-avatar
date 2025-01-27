@@ -2,6 +2,10 @@
 	float: right;
 }
 
-.avatar-plugin--md-preview > * {
-	margin-top: 0;
+.avatar-plugin--md > *:first-child {
+	margin-block-start: 0;
+}
+
+.avatar-plugin--md > *:last-child {
+	margin-block-end: 0;
 }

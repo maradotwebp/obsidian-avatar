@@ -138,7 +138,11 @@
 			</Fab>
 		{/if}
 	</div>
-	<div class="description" on:click={enterEditMode}>
+	<div
+		class="description relative"
+		on:click={enterEditMode}
+		class:editmode={!!editMode}
+	>
 		<textarea
 			class="textarea"
 			bind:this={descriptionEditEl}
@@ -147,7 +151,7 @@
 			bind:value={state.description}
 		></textarea>
 		<span
-			class="avatar-plugin--md-preview with-placeholder"
+			class="avatar-plugin--md with-placeholder"
 			hidden={editMode}
 			bind:this={descriptionPreviewEl}
 			data-placeholder="Write your story..."
@@ -194,8 +198,11 @@
 	.description {
 		flex: 1 1 auto;
 		word-break: break-word;
-		padding: 6px;
 		border-radius: 6px;
+	}
+
+	.description.editmode {
+		padding: 6px;
 	}
 
 	.textarea {
