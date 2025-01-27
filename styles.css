@@ -2,6 +2,11 @@
 	float: right;
 }
 
+.markdown-preview-view .avatar-view {
+	margin-block-start: var(--p-spacing);
+	margin-block-end: var(--p-spacing);
+}
+
 .avatar-plugin--md > *:first-child {
 	margin-block-start: 0;
 }

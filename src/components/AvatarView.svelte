@@ -118,7 +118,7 @@
 	}
 </script>
 
-<div class="flex" class:reverse={state?.side === "right"}>
+<div class="avatar-view flex" class:reverse={state?.side === "right"}>
 	<div
 		class="avatar-container relative"
 		on:click={updateImage}
