@@ -120,9 +120,7 @@
 
 <div class="flex" class:reverse={state?.side === "right"}>
 	<div
-		class="avatar relative"
-		style:width={`${avatarSize}px`}
-		style:height={`${avatarSize}px`}
+		class="avatar-container relative"
 		on:click={updateImage}
 		on:mouseenter={() => (hoverOnImage = true)}
 		on:mouseleave={() => (hoverOnImage = false)}
@@ -130,6 +128,8 @@
 		<img
 			class="avatar"
 			alt="Avatar"
+			style:width={`${avatarSize}px`}
+			style:height={`${avatarSize}px`}
 			src={state.image ? normalizeImgPath(state?.image) : fallbackImage}
 		/>
 		{#if inSourceMode && hoverOnImage}
@@ -138,7 +138,7 @@
 			</Fab>
 		{/if}
 	</div>
-	<div class="description relative" on:click={enterEditMode}>
+	<div class="description" on:click={enterEditMode}>
 		<textarea
 			class="textarea"
 			bind:this={descriptionEditEl}
@@ -182,10 +182,11 @@
 		position: relative;
 	}
 
-	.avatar {
+	.avatar-container {
 		flex: 0 0 auto;
-		width: attr(data-size);
-		height: attr(data-size);
+	}
+
+	.avatar {
 		object-fit: cover;
 		border-radius: 6px;
 	}
