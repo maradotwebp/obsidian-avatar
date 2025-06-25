@@ -1,7 +1,7 @@
 {
 	"id": "avatar",
 	"name": "Avatar",
-	"version": "1.0.7",
+	"version": "1.1.0",
 	"minAppVersion": "0.15.0",
 	"description": "Display an avatar image in your notes.",
 	"author": "froehlichA",
