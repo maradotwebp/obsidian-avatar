@@ -40,6 +40,8 @@ The following options are available through the YAML codeblock:
     -   The side on which the avatar will be displayed. Optional, defaults to `"left"`.
 -   `size?: "small" | "medium" | "large" | number`
     -   The size of the avatar. May be either `small` (180x180px), `medium` (240x240px), `large` (320x320px), or any custom width as a number. Optional, defaults to `medium`.
+-   `objectPosition?: string`
+    -   How to position the image within the square container surrounding it. For example, `"left"` would show the left side of a landscape picture, `"right"` the right side. <small>Refer to https://developer.mozilla.org/en-US/docs/Web/CSS/object-position for more information.</small>
 
 ## Installation
 

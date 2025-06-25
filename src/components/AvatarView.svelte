@@ -31,6 +31,16 @@
 		 * @default "medium"
 		 */
 		size?: "small" | "medium" | "large" | number;
+		/**
+		 * Alignment of the avatar image within the container.
+		 *
+		 * Corresponds to the `object-position` CSS property.
+		 *
+		 * @see https://developer.mozilla.org/en-US/docs/Web/CSS/object-position
+		 *
+		 * @default "50% 50%"
+		 */
+		objectPosition?: string;
 		description: string;
 	}
 
@@ -57,6 +67,7 @@
 				}[state.size]
 			: state.size
 		: 240;
+	$: objectPosition = state.objectPosition;
 
 	onMount(() => {
 		inSourceMode = isSourceMode();
@@ -130,6 +141,7 @@
 			alt="Avatar"
 			style:width={`${avatarSize}px`}
 			style:height={`${avatarSize}px`}
+			style:object-position={objectPosition}
 			src={state.image ? normalizeImgPath(state?.image) : fallbackImage}
 		/>
 		{#if inSourceMode && hoverOnImage}
