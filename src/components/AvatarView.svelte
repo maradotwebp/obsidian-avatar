@@ -4,6 +4,7 @@
 		MarkdownPostProcessorContext,
 		MarkdownRenderer,
 		MarkdownView,
+		Platform,
 		TFile,
 	} from "obsidian";
 	import Fab from "./Fab.svelte";
@@ -111,6 +112,10 @@
 	}
 
 	function normalizeImgPath(src: string): string {
+		// Check if the path is an external local file
+		if (src.startsWith("file://")) {
+			return src.replace("file://", Platform.resourcePathPrefix);
+		}
 		const file = app.vault.getAbstractFileByPath(src);
 		if (file && file instanceof TFile) {
 			return app.vault.getResourcePath(file);
